@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "otimizador-formulacoes"
+version = "1.0.0"
+description = "Otimizador de formulações de custo mínimo usando Streamlit e PuLP."
+authors = [
+    {name = "Levi", email = "seu.email@exemplo.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ["otimizacao", "streamlit", "pulP", "r&d", "formulacao"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+# Dependências de PRODUÇÃO (necessárias para rodar o app)
+dependencies = [
+    "streamlit",
+    "pandas",
+    "openpyxl",
+    "pulp",
+]
+
+# Configurações de ferramentas (Ex: uv)
+[tool.uv]

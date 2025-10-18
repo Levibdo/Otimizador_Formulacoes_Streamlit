@@ -1,0 +1,6 @@
+pyproject.toml
+otimizador_formulacoes.egg-info/PKG-INFO
+otimizador_formulacoes.egg-info/SOURCES.txt
+otimizador_formulacoes.egg-info/dependency_links.txt
+otimizador_formulacoes.egg-info/requires.txt
+otimizador_formulacoes.egg-info/top_level.txt

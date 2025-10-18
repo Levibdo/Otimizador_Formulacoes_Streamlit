@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: otimizador-formulacoes
+Version: 1.0.0
+Summary: Otimizador de formulações de custo mínimo usando Streamlit e PuLP.
+Author-email: Levi <seu.email@exemplo.com>
+License: MIT
+Keywords: otimizacao,streamlit,pulP,r&d,formulacao
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: streamlit
+Requires-Dist: pandas
+Requires-Dist: openpyxl
+Requires-Dist: pulp

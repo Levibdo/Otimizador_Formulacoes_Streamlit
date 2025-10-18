@@ -13,9 +13,12 @@ Certifique-se de ter o Python (3.7+) e o Git instalados em sua máquina.
 Abra o terminal e baixe o código-fonte do projeto:
 Bash
 
+```
 git clone https://github.com/Levibdo/Otimizador_Formulacoes_Streamlit.git
+```
+```
 cd Otimizador_Formulacoes_Streamlit
-
+```
 2. Configurar e Ativar o Ambiente Virtual
 
 É crucial usar um ambiente virtual isolado para evitar conflitos de dependências em seu sistema:

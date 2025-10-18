@@ -1,0 +1,11 @@
+# Pastas de ambientes virtuais (essencial ignorar)
+.venv/
+venv/
+
+# Cache e arquivos temporários do Python
+__pycache__/
+*.pyc
+
+# Logs e arquivos de depuração
+*.log
+.DS_Store # Arquivos de metadados do macOS (se aplicável)

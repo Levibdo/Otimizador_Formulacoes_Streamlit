@@ -13,14 +13,10 @@ license = {text = "MIT"}
 readme = "README.md"
 requires-python = ">=3.8"
 keywords = ["otimizacao", "streamlit", "pulP", "r&d", "formulacao"]
-
-# Adicione esta linha para resolver o erro 'Multiple top-level modules discovered'
-py-modules = ["app_streamlit", "otimizacao_motor"] 
-# -------------------------------------------------------------------------
-
+# py-modules FOI REMOVIDO DAQUI
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License", # Vamos deixar a recomendação do SPDX para depois
+    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
 
@@ -29,7 +25,12 @@ dependencies = [
     "pandas",
     "openpyxl",
     "pulp",
-    "plotly", 
+    "plotly",
 ]
+
+# NOVO: Seção para setuptools para listar os módulos
+[tool.setuptools]
+py-modules = ["app_streamlit", "otimizacao_motor"] 
+# ---------------------------------------------------
 
 [tool.uv]

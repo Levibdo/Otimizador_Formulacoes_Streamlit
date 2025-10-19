@@ -1,0 +1,6 @@
+# requirements.txt
+streamlit
+pandas
+openpyxl
+pulp
+plotly

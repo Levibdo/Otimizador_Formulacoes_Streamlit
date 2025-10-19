@@ -25,6 +25,7 @@ dependencies = [
     "pandas",
     "openpyxl",
     "pulp",
+    "plotly",
 ]
 
 # Configurações de ferramentas (Ex: uv)

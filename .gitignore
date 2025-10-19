@@ -9,3 +9,7 @@ __pycache__/
 # Logs e arquivos de depuração
 *.log
 .DS_Store # Arquivos de metadados do macOS (se aplicável)
+resultados/*.csv
+resultados/*.xlsx
+__pycache__/
+.venv/

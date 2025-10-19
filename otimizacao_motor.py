@@ -4,10 +4,11 @@ from pulp import *
 # Define o nome da linha de custo para leitura
 CUSTO_ROW_NAME = 'Custo'
 
-def resolver_modelo_otimizado(materias_primas, df_metas, CUSTO_MAXIMO_FORMULA):
+# [MODIFICADO] A função agora aceita 'restricoes_dinamicas' (lista de dicts) em vez de 'df_metas' (DataFrame)
+def resolver_modelo_otimizado(materias_primas, restricoes_dinamicas, CUSTO_MAXIMO_FORMULA):
     """
     Executa o modelo de otimização de custo (Programação Linear)
-    com base nas matrizes de dados (MP vs Nutrientes/Custo) e Metas.
+    com base nas matrizes de dados (MP vs Nutrientes/Custo) e Restrições Dinâmicas.
     
     Retorna DataFrames prontos para exibição no Streamlit.
     """
@@ -20,35 +21,40 @@ def resolver_modelo_otimizado(materias_primas, df_metas, CUSTO_MAXIMO_FORMULA):
         if CUSTO_ROW_NAME not in materias_primas.index:
             raise ValueError(f"ERRO DE DADOS: A matriz deve ter uma LINHA chamada '{CUSTO_ROW_NAME}' no índice. Verifique 'MPs_data.xlsx'.")
 
-        df_nutricionais = df_metas[df_metas['Tipo'] == 'Nutricional']
-        df_inclusao = df_metas[df_metas['Tipo'] == 'Inclusão']
-
-        # Prepara Metas Nutricionais
+        # [MODIFICADO] Separa as restrições dinâmicas em Nutricionais e de Inclusão/Limites de MP
         metas_nutricionais = {}
-        for _, row in df_nutricionais.iterrows():
-            if row['Nome'] != CUSTO_ROW_NAME:
-                metas_nutricionais[row['Nome']] = {'tipo': row['Restrição'], 'valor': row['Valor']}
+        restricoes_inclusao = {} # Dicionário para armazenar os limites Min/Max por MP
+        MPs = materias_primas.columns.tolist()
 
-        # Prepara Restrições de Inclusão
-        MPs = materias_primas.columns.tolist() 
-        restricoes_inclusao = {mp: {'min': 0.0, 'max': 1.0} for mp in MPs}
+        # Inicializa limites de inclusão (Min=0, Max=1) para todas as MPs
+        for mp in MPs:
+            restricoes_inclusao[mp] = {'min': 0.0, 'max': 1.0}
 
-        for _, row in df_inclusao.iterrows():
-            mp_nome_restricao = row['Nome']
-            mp_encontrada = next(
-                (mp for mp in MPs if mp.strip().lower() == mp_nome_restricao.strip().lower()), 
-                None
-            )
+        # [MODIFICADO] Itera sobre a lista de dicionários do Streamlit
+        for rest in restricoes_dinamicas:
+            nome = rest['item']
+            tipo = rest['tipo']
+            valor = rest['valor']
             
-            if mp_encontrada:
-                restricao = row['Restrição']
-                valor = row['Valor']
-                if restricao == 'Min':
-                    restricoes_inclusao[mp_encontrada]['min'] = valor
-                elif restricao == 'Max':
-                    restricoes_inclusao[mp_encontrada]['max'] = valor
-                elif restricao == 'Fixo':
-                    restricoes_inclusao[mp_encontrada] = {'min': valor, 'max': valor}
+            # -----------------------------------------------------------------
+            # Lógica para classificar a restrição
+            # -----------------------------------------------------------------
+            
+            if nome in materias_primas.index:
+                # É um Nutriente (ou outra Linha de composição)
+                metas_nutricionais[nome] = {'tipo': tipo, 'valor': valor}
+            
+            elif nome in MPs:
+                # É uma Matéria-Prima (restrição de Inclusão Min/Max/Fixo)
+                if tipo == '>=':
+                    # Mínimo
+                    restricoes_inclusao[nome]['min'] = valor
+                elif tipo == '<=':
+                    # Máximo
+                    restricoes_inclusao[nome]['max'] = valor
+                elif tipo == '=':
+                    # Fixo
+                    restricoes_inclusao[nome] = {'min': valor, 'max': valor}
         
         # Lê o Custo Real
         CUSTO_POR_MP = {mp: materias_primas.loc[CUSTO_ROW_NAME, mp] for mp in MPs}
@@ -64,14 +70,14 @@ def resolver_modelo_otimizado(materias_primas, df_metas, CUSTO_MAXIMO_FORMULA):
         custo_expressao = lpSum([CUSTO_POR_MP[mp] * x[mp] for mp in MPs])
         problema += custo_expressao, "Custo_Total_Real"
 
-        # 1.5. NOVA RESTRIÇÃO DE CUSTO MÁXIMO
-        if CUSTO_MAXIMO_FORMULA > 0.0:
-            problema += custo_expressao <= CUSTO_MAXIMO_FORMULA, "Maximo_Custo_Total" # <--- Restrição de Custo Máximo
+        # 1.5. RESTRIÇÃO DE CUSTO MÁXIMO
+        if CUSTO_MAXIMO_FORMULA > 0.00001:
+            problema += custo_expressao <= CUSTO_MAXIMO_FORMULA, "Maximo_Custo_Total" 
 
         # 2. Restrição de Soma 100%
         problema += lpSum([x[mp] for mp in MPs]) == 1.0, "Soma_Total_100_Porcento"
 
-        # 3. Restrições Nutricionais
+        # 3. Restrições Nutricionais (USANDO AS NOVAS METAS)
         for nutriente, meta in metas_nutricionais.items():
             if nutriente in materias_primas.index:
                 expr = lpSum([materias_primas.loc[nutriente, mp] * x[mp] for mp in MPs])
@@ -107,7 +113,7 @@ def resolver_modelo_otimizado(materias_primas, df_metas, CUSTO_MAXIMO_FORMULA):
             peso = x[mp].varValue * 100
             if peso > 0.0001:
                 resultados.append({'Matéria-Prima': mp, 'Peso (%)': round(peso, 4)})
-        df_resultado = pd.DataFrame(resultados).sort_values(by='Peso (%)', ascending=False)
+        df_resultado = pd.DataFrame(resultados).sort_values(by='Peso (%)', ascending=False) # <--- Correção foi feita APÓS esta linha
 
         # 3.2. Conferência Nutricional
         comp = []
@@ -124,8 +130,6 @@ def resolver_modelo_otimizado(materias_primas, df_metas, CUSTO_MAXIMO_FORMULA):
         # 3.3. Análise de Gargalos (Preço Sombra)
         restricoes_gargalo = []
         for name, c in problema.constraints.items():
-            # A restrição 'Maximo_Custo_Total' não tem preço sombra significativo no contexto
-            # da minimização, então a ignoramos aqui.
             if 'Soma_Total' not in name and 'Custo_Total' not in name and 'Maximo_Custo_Total' not in name: 
                 shadow_price = c.pi
                 if shadow_price is not None and abs(shadow_price) > 0.00001:

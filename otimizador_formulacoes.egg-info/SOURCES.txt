@@ -1,3 +1,6 @@
+README.md
+app_streamlit.py
+otimizacao_motor.py
 pyproject.toml
 otimizador_formulacoes.egg-info/PKG-INFO
 otimizador_formulacoes.egg-info/SOURCES.txt

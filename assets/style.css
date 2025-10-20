@@ -1,0 +1,53 @@
+/* Variáveis de Tema Padrão (Claro) */
+:root {
+    --cor-fundo-claro: #F0F2F6;
+    --cor-sidebar-claro: #FFFFFF;
+    --cor-primaria: #2E86C1;
+    --cor-secundaria: #A9A9A9;
+    --cor-metric-card-claro: #FFFFFF;
+}
+
+/* Estilos de Fundo e Sidebar para Tema Claro Padrão */
+.stApp {
+    background-color: var(--cor-fundo-claro);
+}
+section.main .stSidebar {
+    background-color: var(--cor-sidebar-claro);
+}
+
+/* Estilo para Títulos (Geral) */
+h1, h2, h3, h4 {
+    color: var(--cor-primaria);
+}
+
+/* Estilo para o Cartão Métrica Customizado */
+.metric-card {
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border-left: 5px solid var(--cor-primaria);
+    background-color: var(--cor-metric-card-claro);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.metric-card h4 {
+    color: var(--cor-secundaria);
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.metric-card h2 {
+    color: var(--cor-primaria);
+    margin: 5px 0 0 0;
+    font-size: 1.8rem;
+}
+
+/* Garante que o toggle não tenha margem indesejada no cabeçalho */
+[data-testid="stToggle"] {
+    margin-top: 10px;
+}

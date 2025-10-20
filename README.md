@@ -45,15 +45,13 @@ source .venv/bin/activate
 ```
 .\.venv\Scripts\activate
 ```
-📦 Instalar Dependências
-Com o ambiente virtual ativo, execute:
+# 📦Instalar Dependências Com o ambiente virtual ativo, execute:
 
-# Instalar o gerenciador UV (opcional, mais rápido que pip)
+Instalar o gerenciador UV
 ```
 pip install uv
 ```
-
-# Instalar dependências do projeto
+Instalar dependências do projeto
 ```
 uv sync
 ```
@@ -111,12 +109,12 @@ Comparativo entre valores obtidos e metas nutricionais.
 (Opcional) Análise de Gargalos / Preço Sombra.
 
 🛠️ Tecnologias Utilizadas
-Componente	Função
-Python	Linguagem base
-Streamlit	Interface web interativa
-PuLP	Modelagem e resolução de Programação Linear
-Pandas	Manipulação e análise de dados
-Plotly	Gráficos dinâmicos e responsivos
+Componente  	|Função
+Python	        |Linguagem base
+Streamlit       |Interface web interativa
+PuLP	        |Modelagem e resolução de Programação Linear
+Pandas	        |Manipulação e análise de dados
+Plotly	           |Gráficos dinâmicos e responsivos
 
 📄 Licença
 Este projeto está licenciado sob a MIT License.

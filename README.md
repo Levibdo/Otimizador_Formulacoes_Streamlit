@@ -1,17 +1,26 @@
-🚀 Otimizador de Formulações de Baixo Custo (Streamlit + PuLP)
+# 🚀 Otimizador de Formulações de Baixo Custo (Streamlit + PuLP)
 
-Este projeto é uma ferramenta de Otimização de Programação Linear (PL) desenvolvida para o setor de P&D (Pesquisa e Desenvolvimento). O sistema encontra a formulação de custo mínimo que atende a todas as restrições de composição e limites de matérias-primas (MPs).
+**Otimização de formulações nutricionais e industriais com custo mínimo — projetado para equipes de P&D e Engenharia de Processos.**  
+O sistema encontra automaticamente a **combinação ideal de matérias-primas (MPs)** que atende às **metas nutricionais e restrições de inclusão** ao menor custo possível.
 
-⚙️ Configuração e Instalação
+---
 
-Pré-requisitos
+## ✨ Principais Features
 
-Certifique-se de ter o Python (3.7+) e o Git instalados em sua máquina.
+- ⚙️ **Otimização Dinâmica:** Defina restrições e metas nutricionais em tempo real pela interface web.
+- 🔍 **Modo Consulta (Novo):** Calcule o custo e a composição nutricional de fórmulas já existentes ou experimentais.
+- 🌓 **Controle de Tema:** Seletor de tema (claro/escuro) integrado ao cabeçalho.
+- 🧩 **Arquitetura Modular:** Código organizado em módulos (UI, motor, análise) para manutenção fácil e extensões futuras.
+- 📈 **Visualização Profissional:** Gráficos interativos com Plotly e métricas resumidas por cards.
 
-1. Clonar o Repositório
+---
 
-Abra o terminal e baixe o código-fonte do projeto:
-Bash
+## ⚙️ Configuração e Instalação
+
+### 🧰 Pré-requisitos
+Certifique-se de ter o **Python 3.8+** e o **Git** instalados.
+
+### 🔽 Clonar o Repositório
 
 ```
 git clone https://github.com/Levibdo/Otimizador_Formulacoes_Streamlit.git
@@ -19,86 +28,100 @@ git clone https://github.com/Levibdo/Otimizador_Formulacoes_Streamlit.git
 ```
 cd Otimizador_Formulacoes_Streamlit
 ```
-2. Configurar e Ativar o Ambiente Virtual
+🧱 Configurar e Ativar o Ambiente Virtual
+É altamente recomendado usar um ambiente virtual isolado:
 
-É crucial usar um ambiente virtual isolado para evitar conflitos de dependências em seu sistema:
-
-Cria o ambiente virtual (.venv)
+# Criar ambiente virtual (.venv)
 ```
 python -m venv .venv
 ```
-Ativa o ambiente virtual (Seu prompt deve mostrar (.venv) no início)
 
-Linux/macOS
+# Ativar (Linux/macOS)
 ```
 source .venv/bin/activate
 ```
-Windows (CMD/PowerShell)
+
+# Ativar (Windows)
 ```
 .\.venv\Scripts\activate
 ```
+📦 Instalar Dependências
+Com o ambiente virtual ativo, execute:
 
-
-3. Instalar Dependências
-
-Com o ambiente virtual ATIVO, use o uv para instalar as bibliotecas. O uv lerá as dependências listadas no arquivo central pyproject.toml:
-Instala o uv (se ainda não o tiver)
+# Instalar o gerenciador UV (opcional, mais rápido que pip)
 ```
 pip install uv
 ```
 
-Instala todas as dependências listadas no pyproject.toml
+# Instalar dependências do projeto
 ```
 uv sync
 ```
+# ou, se preferir:
+```
+pip install -r requirements.txt
+```
+📊 Estrutura de Dados (Excel)
+O projeto precisa de um arquivo Excel na pasta raiz:
 
-4. Estrutura de Dados (Arquivos Excel)
-
-O projeto requer dois arquivos Excel na pasta raiz para funcionar. Eles devem ser adicionados manualmente:
 Arquivo	Descrição
-MPs_data.xlsx	Matriz de composição: Matérias-Primas (Colunas) vs. Nutrientes/Custo (Linhas). Deve conter uma linha chamada 'Custo'.
-Metas_e_Restricoes.xlsx	Tabela com as metas iniciais para Nutrientes e MPs (Nome, Restrição, Valor, Tipo).
+MPs_data.xlsx	Matriz de composição: Colunas = Matérias-Primas e Linhas = Nutrientes + 'Custo'. Deve conter uma linha chamada Custo no índice.
 
 ▶️ Como Executar
+Execute o aplicativo com o comando:
 
-Execute a aplicação Streamlit diretamente do terminal:
 
-python -m streamlit run app_streamlit.py
+```
+streamlit run app_streamlit.py
+```
+A aplicação abrirá automaticamente no navegador, geralmente em
+```
+ http://localhost:8501
+```
+🧭 Estrutura da Aplicação
+O app possui três abas principais:
 
-A aplicação abrirá automaticamente no seu navegador, geralmente em http://localhost:8501.
+1️⃣ Restrições e Metas (📊)
+Entrada de dados para otimização.
 
-📝 Uso da Aplicação
+Define custo máximo global e limites de inclusão (%) das MPs.
 
-Seção 1: Definição de Metas e Restrições
+Permite ajustar metas nutricionais para os nutrientes.
 
-    Custo Máximo Desejado: Defina o limite de custo da formulação (em R$ por unidade de produto).
+2️⃣ Modo Consulta (🔍)
+Insira porcentagens de MPs de uma fórmula já existente.
 
-    Metas Nutricionais: Ajuste as restrições (<=, >=, =) e os valores para os nutrientes obrigatórios.
+Calcula automaticamente:
 
-    Restrições de MPs: Defina a inclusão mínima (Min), máxima (Max) ou o valor exato (Fixo) para as Matérias-Primas.
+Custo total da formulação
 
-Seção 2: Resultados da Otimização
+Composição nutricional
 
-Após clicar em "🚀 Otimizar Formulação e Calcular Custo", o sistema exibirá:
+Exibe gráficos e tabelas interativos.
 
-    Status da Solução: (Optimal, Feasible, ou Inviável).
+Resultados da Otimização (📈)
+Status da solução: Ótima, Viável ou Inviável.
 
-    Custo Total da Formulação (Real): O custo mínimo obtido.
+Custo mínimo obtido.
 
-    Fórmula Ideal: A porcentagem de inclusão de cada Matéria-Prima (e.g., Maltodextrina 33.755%).
+Tabela com inclusões (%) das MPs.
 
-    Análise de Gargalos (Preço Sombra): Identifica quais restrições estão ativas e quanto elas impactam o custo final. Valores positivos indicam quanto o custo aumentaria ao apertar a restrição.
+Comparativo entre valores obtidos e metas nutricionais.
+
+(Opcional) Análise de Gargalos / Preço Sombra.
 
 🛠️ Tecnologias Utilizadas
-
-    Python: Linguagem principal.
-
-    Streamlit: Framework para a interface web interativa.
-
-    PuLP: Biblioteca para modelagem e resolução de Programação Linear.
-
-    Pandas: Manipulação e processamento de dados (matrizes e metas).
+Componente	Função
+Python	Linguagem base
+Streamlit	Interface web interativa
+PuLP	Modelagem e resolução de Programação Linear
+Pandas	Manipulação e análise de dados
+Plotly	Gráficos dinâmicos e responsivos
 
 📄 Licença
+Este projeto está licenciado sob a MIT License.
+Sinta-se livre para usar, modificar e compartilhar com os devidos créditos.
 
-Este projeto está licenciado sob a Licença MIT.
+💡 Créditos e Contato
+Autor: Levi Oliveira
+📬 Para dúvidas ou sugestões: abra uma issue ou envie um pull request.

@@ -119,7 +119,7 @@ Comparativo entre valores obtidos e metas nutricionais.
 | Plotly | Geração de gráficos dinâmicos e responsivos. |
 
 📄 Licença
-Este projeto está licenciado sob a MIT License.
+Este projeto está licenciado sob a MIT License.(LICENSE). Consulte o arquivo **LICENSE** na raiz do projeto para detalhes completos.
 Sinta-se livre para usar, modificar e compartilhar com os devidos créditos.
 
 💡 Créditos e Contato
